@@ -116,7 +116,7 @@ uvc_frame_t *UVCPreview::get_frame(size_t data_bytes) {
 	}
 	pthread_mutex_unlock(&pool_mutex);
 	if UNLIKELY(!frame) {
-		LOGW("allocate new frame");
+		LOGW("allocate new frame %zd", data_bytes);
 		frame = uvc_allocate_frame(data_bytes);
 	}
 	return frame;
@@ -641,7 +641,7 @@ uvc_frame_t *UVCPreview::draw_preview_one(uvc_frame_t *frame, ANativeWindow **wi
 				b = convert_func(frame, converted);
 				if (!b) {
 					pthread_mutex_lock(&preview_mutex);
-					copyToSurface(converted, window);
+					//copyToSurface(converted, window);
 					pthread_mutex_unlock(&preview_mutex);
 				} else {
 					LOGE("failed converting");
@@ -650,7 +650,7 @@ uvc_frame_t *UVCPreview::draw_preview_one(uvc_frame_t *frame, ANativeWindow **wi
 			}
 		} else {
 			pthread_mutex_lock(&preview_mutex);
-			copyToSurface(frame, window);
+			//copyToSurface(frame, window);
 			pthread_mutex_unlock(&preview_mutex);
 		}
 	}

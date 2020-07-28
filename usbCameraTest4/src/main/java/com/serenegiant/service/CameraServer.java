@@ -59,8 +59,8 @@ public final class CameraServer extends Handler {
 	private static final boolean DEBUG = true;
 	private static final String TAG = "CameraServer";
 
-	private static final int DEFAULT_WIDTH = 640;
-	private static final int DEFAULT_HEIGHT = 480;
+	private static final int DEFAULT_WIDTH = 480;//640;//480;//640;
+	private static final int DEFAULT_HEIGHT = 182;//480;//182;//
 	
 	private int mFrameWidth = DEFAULT_WIDTH, mFrameHeight = DEFAULT_HEIGHT;
 	
@@ -322,8 +322,7 @@ public final class CameraServer extends Handler {
 			int len = frame.capacity();
 			final byte[] raw = new byte[len];
 			frame.get(raw);
-			Log.e(TAG, Arrays.toString(raw));
-			Log.e(TAG, "Inside onFrame");
+			Log.e(TAG, "raw len : " + len + " ,data : " + Arrays.toString(raw));
 		}
 	};
 

@@ -61,8 +61,8 @@ public class CameraFragment extends BaseFragment {
 	private static final boolean DEBUG = true;
 	private static final String TAG = "CameraFragment";
 
-	private static final int DEFAULT_WIDTH = 640;
-	private static final int DEFAULT_HEIGHT = 480;
+	private static final int DEFAULT_WIDTH = 480;//640;//480;//
+	private static final int DEFAULT_HEIGHT = 182;//480;//182;//
 
 	private USBMonitor mUSBMonitor;
 	private ICameraClient mCameraClient;
