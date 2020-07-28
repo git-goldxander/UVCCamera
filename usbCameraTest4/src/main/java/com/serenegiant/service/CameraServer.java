@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -318,6 +319,10 @@ public final class CameraServer extends Handler {
 	private static final IFrameCallback mIFrameCallback = new IFrameCallback() {
 		@Override
 		public void onFrame(final ByteBuffer frame) {
+			int len = frame.capacity();
+			final byte[] raw = new byte[len];
+			frame.get(raw);
+			Log.e(TAG, Arrays.toString(raw));
 			Log.e(TAG, "Inside onFrame");
 		}
 	};
