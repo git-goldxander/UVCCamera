@@ -26,6 +26,7 @@ package com.serenegiant.service;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
+import java.nio.ByteBuffer;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -47,6 +48,7 @@ import com.serenegiant.encoder.MediaMuxerWrapper;
 import com.serenegiant.encoder.MediaSurfaceEncoder;
 import com.serenegiant.glutils.RenderHolderCallback;
 import com.serenegiant.glutils.RendererHolder;
+import com.serenegiant.usb.IFrameCallback;
 import com.serenegiant.usb.USBMonitor.UsbControlBlock;
 import com.serenegiant.usb.Size;
 import com.serenegiant.usb.UVCCamera;
@@ -313,6 +315,13 @@ public final class CameraServer extends Handler {
 		}
 	};
 
+	private static final IFrameCallback mIFrameCallback = new IFrameCallback() {
+		@Override
+		public void onFrame(final ByteBuffer frame) {
+			Log.e(TAG, "Inside onFrame");
+		}
+	};
+
 	private static final class CameraThread extends Thread {
 		private static final String TAG_THREAD = "CameraThread";
 		private final Object mSync = new Object();
@@ -420,6 +429,7 @@ public final class CameraServer extends Handler {
 				mFrameWidth = width;
 				mFrameHeight = height;
 				mUVCCamera.setPreviewDisplay(surface);
+				mUVCCamera.setFrameCallback(mIFrameCallback, UVCCamera.PIXEL_FORMAT_RAW);
 				mUVCCamera.startPreview();
 			}
 		}
@@ -428,6 +438,7 @@ public final class CameraServer extends Handler {
 			if (DEBUG) Log.d(TAG_THREAD, "handleStopPreview:");
 			synchronized (mSync) {
 				if (mUVCCamera != null) {
+					mUVCCamera.setFrameCallback(null, 0);
 					mUVCCamera.stopPreview();
 				}
 			}
