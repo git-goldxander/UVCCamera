@@ -67,13 +67,13 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
      * if your camera does not support specific resolution and mode,
      * {@link UVCCamera#setPreviewSize(int, int, int)} throw exception
      */
-    private static final int PREVIEW_WIDTH = 640;
+    private static final int PREVIEW_WIDTH = 480;//640;
     /**
      * preview resolution(height)
      * if your camera does not support specific resolution and mode,
      * {@link UVCCamera#setPreviewSize(int, int, int)} throw exception
      */
-    private static final int PREVIEW_HEIGHT = 480;
+    private static final int PREVIEW_HEIGHT = 182;//480;
     /**
      * preview mode
      * if your camera does not support specific resolution and mode,
@@ -141,7 +141,7 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 
 		mUSBMonitor = new USBMonitor(this, mOnDeviceConnectListener);
 		mCameraHandler = UVCCameraHandler.createHandler(this, mUVCCameraView,
-			USE_SURFACE_ENCODER ? 0 : 1, PREVIEW_WIDTH, PREVIEW_HEIGHT, PREVIEW_MODE);
+			USE_SURFACE_ENCODER ? 1 : 2, PREVIEW_WIDTH, PREVIEW_HEIGHT, PREVIEW_MODE);
 	}
 
 	@Override

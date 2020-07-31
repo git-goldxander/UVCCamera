@@ -61,6 +61,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -565,7 +566,7 @@ abstract class AbstractUVCCameraHandler extends Handler {
 				muxer.prepare();
 				muxer.startRecording();
 				if (videoEncoder != null) {
-					mUVCCamera.setFrameCallback(mIFrameCallback, UVCCamera.PIXEL_FORMAT_NV21);
+					mUVCCamera.setFrameCallback(mIFrameCallback, UVCCamera.PIXEL_FORMAT_RAW);
 				}
 				synchronized (mSync) {
 					mMuxer = muxer;
@@ -602,9 +603,24 @@ abstract class AbstractUVCCameraHandler extends Handler {
 			}
 		}
 
+		public static ByteBuffer ByteBufferclone(ByteBuffer original) {
+			ByteBuffer clone = ByteBuffer.allocate(original.capacity());
+			original.rewind();//copy from the beginning
+			clone.put(original);
+			original.rewind();
+			clone.flip();
+			return clone;
+		}
+
 		private final IFrameCallback mIFrameCallback = new IFrameCallback() {
 			@Override
 			public void onFrame(final ByteBuffer frame) {
+				ByteBuffer bb_frame_clone = ByteBufferclone(frame);
+				int len = bb_frame_clone.capacity();
+				final byte[] raw = new byte[len];
+				bb_frame_clone.get(raw);
+				Log.e(TAG, "raw len : " + len + " ,data : " + Arrays.toString(raw));
+/*
 				final MediaVideoBufferEncoder videoEncoder;
 				synchronized (mSync) {
 					videoEncoder = mVideoEncoder;
@@ -613,6 +629,7 @@ abstract class AbstractUVCCameraHandler extends Handler {
 					videoEncoder.frameAvailableSoon();
 					videoEncoder.encode(frame);
 				}
+*/
 			}
 		};
 
