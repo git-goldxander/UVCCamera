@@ -369,7 +369,7 @@ public class CameraClient implements ICameraClient {
 				final IUVCService service = mParent.getService();
 				if (service != null) {
 					try {
-						mServiceId = service.select(device, this);
+						mServiceId = service.select(device, this);//xander
 					} catch (final RemoteException e) {
 						if (DEBUG) Log.e(TAG_CAMERA, "select:", e);
 					}
@@ -418,7 +418,7 @@ public class CameraClient implements ICameraClient {
 				final IUVCService service = mParent.getService();
 				if (service != null)
 				try {
-					service.addSurface(mServiceId, surface.hashCode(), surface, isRecordable);
+					service.addSurface(mServiceId, surface.hashCode(), surface, isRecordable);//xander1
 				} catch (final RemoteException e) {
 					if (DEBUG) Log.e(TAG_CAMERA, "handleAddSurface:", e);
 				}

@@ -260,7 +260,7 @@ public class UVCService extends BaseService {
 		public int select(final UsbDevice device, final IUVCServiceCallback callback) throws RemoteException {
 			if (DEBUG) Log.d(TAG, "mBasicBinder#select:device=" + (device !=null ? device.getDeviceName() : null));
 			mCallback = callback;
-			final int serviceId = device.hashCode();
+			final int serviceId = device.hashCode();//xander1
 			CameraServer server = null;
 			synchronized (sServiceSync) {
 				server = sCameraServers.get(serviceId);

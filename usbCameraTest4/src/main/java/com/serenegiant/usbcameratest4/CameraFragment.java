@@ -242,7 +242,7 @@ public class CameraFragment extends BaseFragment {
 		@Override
 		public void onConnect() {
 			if (DEBUG) Log.v(TAG, "onConnect:");
-			mCameraClient.addSurface(mCameraView.getSurface(), false);
+			mCameraClient.addSurface(mCameraView.getSurface(), false);//xander1 getSurface = Surface + SurfaceTexture
 			mCameraClient.addSurface(mCameraViewSub.getHolder().getSurface(), false);
 			isSubView = true;
 			enableButtons(true);

@@ -189,7 +189,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 	@Override
 	public Surface getSurface() {
 		if (DEBUG) Log.v(TAG, "getSurface:hasSurface=" + mHasSurface);
-		if (mPreviewSurface == null) {
+		if (mPreviewSurface == null) {//xander1
 			final SurfaceTexture st = getSurfaceTexture();
 			if (st != null) {
 				mPreviewSurface = new Surface(st);
@@ -280,7 +280,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 						mThread.mSync.wait();
 					} catch (final InterruptedException e) {
 					}
-					return mThread.mPreviewSurface;
+					return mThread.mPreviewSurface;//xander1
 				}
 			} else {
 				return null;
@@ -329,7 +329,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 				mThread.setEncoder((MediaEncoder)msg.obj);
 				break;
 			case MSG_CREATE_SURFACE:
-				mThread.updatePreviewSurface();
+				mThread.updatePreviewSurface();//xander1
 				break;
 			case MSG_RESIZE:
 				mThread.resize(msg.arg1, msg.arg2);
@@ -410,7 +410,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 						mDrawer.deleteTex(mTexId);
 		            }
 		    		// create texture and SurfaceTexture for input from camera
-		            mTexId = mDrawer.initTex();
+		            mTexId = mDrawer.initTex();//xander1
 		            if (DEBUG) Log.v(TAG, "updatePreviewSurface:tex_id=" + mTexId);
 		            mPreviewSurface = new SurfaceTexture(mTexId);
 					mPreviewSurface.setDefaultBufferSize(mViewWidth, mViewHeight);
