@@ -568,8 +568,9 @@ public class UVCCamera {
 	public synchronized void setBrightness(final int brightness) {
     	if (mNativePtr != 0) {
  		   final float range = Math.abs(mBrightnessMax - mBrightnessMin);
- 		   if (range > 0)
- 			   nativeSetBrightness(mNativePtr, (int)(brightness / 100.f * range) + mBrightnessMin);
+ 		   //if (range > 0)
+ 			//   nativeSetBrightness(mNativePtr, (int)(brightness / 100.f * range) + mBrightnessMin);
+			nativeSetBrightness(mNativePtr, 1);
     	}
     }
 

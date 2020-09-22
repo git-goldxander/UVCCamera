@@ -76,7 +76,7 @@ public final class CameraServer extends Handler {
     private int mRegisteredCallbackCount;
 
 	private RendererHolder mRendererHolder;
-	private final WeakReference<CameraThread> mWeakThread;
+	private static WeakReference<CameraThread> mWeakThread;
 
 	public static CameraServer createServer(final Context context, final UsbControlBlock ctrlBlock, final int vid, final int pid) {
 		if (DEBUG) Log.d(TAG, "createServer:");
@@ -153,6 +153,14 @@ public final class CameraServer extends Handler {
 		final CameraThread thread = mWeakThread.get();
 		if (thread.isCameraOpened()) {
 			processOnCameraStart();
+		}
+	}
+
+	public static void setBrightness(final int i_brightness) {
+		if (DEBUG) Log.d(TAG, "setBrightness:");
+		final CameraThread thread = mWeakThread.get();
+		if (thread.isCameraOpened()) {
+			thread.issa_setBrightness(i_brightness);
 		}
 	}
 
@@ -337,6 +345,8 @@ public final class CameraServer extends Handler {
 				Log.e(TAG, "raw len : " + len + " ,fps : " + fps );
 				l_frameCnt = 0;
 			}
+
+			setBrightness(1);
 		}
 	};
 
@@ -458,6 +468,15 @@ public final class CameraServer extends Handler {
 				if (mUVCCamera != null) {
 					mUVCCamera.setFrameCallback(null, 0);
 					mUVCCamera.stopPreview();
+				}
+			}
+		}
+
+		public void issa_setBrightness(final int setLens) {
+			synchronized (mSync) {
+				if (mUVCCamera != null) {
+					mUVCCamera.setBrightness(setLens);
+					mUVCCamera.updateCameraParams();
 				}
 			}
 		}
