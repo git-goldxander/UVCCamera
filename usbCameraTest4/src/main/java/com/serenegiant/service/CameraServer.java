@@ -68,6 +68,9 @@ public final class CameraServer extends Handler {
 		boolean isConnected;
 	}
 
+	public static long l_frameCnt = 0;
+	public static long l_lastframetime = 0;
+
     private final RemoteCallbackList<IUVCServiceCallback> mCallbacks
 		= new RemoteCallbackList<IUVCServiceCallback>();
     private int mRegisteredCallbackCount;
@@ -322,7 +325,18 @@ public final class CameraServer extends Handler {
 			int len = frame.capacity();
 			final byte[] raw = new byte[len];
 			frame.get(raw);
-			Log.e(TAG, "raw len : " + len + " ,data : " + Arrays.toString(raw));
+			//Log.e(TAG, "raw len : " + len + " ,data : " + Arrays.toString(raw));
+
+			//FPS Count
+			l_frameCnt = l_frameCnt + 1;
+			long l_nowtime = System.currentTimeMillis();
+			long l_difftime = l_nowtime - l_lastframetime;
+			if(l_difftime > 1000) {
+				l_lastframetime = System.currentTimeMillis();
+				double fps = ((double)l_frameCnt / (double)l_difftime) * 1000;
+				Log.e(TAG, "raw len : " + len + " ,fps : " + fps );
+				l_frameCnt = 0;
+			}
 		}
 	};
 

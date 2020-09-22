@@ -79,6 +79,9 @@ abstract class AbstractUVCCameraHandler extends Handler {
 		public void onError(final Exception e);
 	}
 
+	public static long l_frameCnt = 0;
+	public static long l_lastframetime = 0;
+
 	private static final int MSG_OPEN = 0;
 	private static final int MSG_CLOSE = 1;
 	private static final int MSG_PREVIEW_START = 2;
@@ -619,7 +622,18 @@ abstract class AbstractUVCCameraHandler extends Handler {
 				int len = bb_frame_clone.capacity();
 				final byte[] raw = new byte[len];
 				bb_frame_clone.get(raw);
-				Log.e(TAG, "raw len : " + len + " ,data : " + Arrays.toString(raw));
+				//Log.e(TAG, "raw len : " + len + " ,data : " + Arrays.toString(raw));
+
+				//FPS Count
+				l_frameCnt = l_frameCnt + 1;
+				long l_nowtime = System.currentTimeMillis();
+				long l_difftime = l_nowtime - l_lastframetime;
+				if(l_difftime > 1000) {
+					l_lastframetime = System.currentTimeMillis();
+					double fps = ((double)l_frameCnt / (double)l_difftime) * 1000;
+					Log.e(TAG, "raw len : " + len + " ,fps : " + fps );
+					l_frameCnt = 0;
+				}
 /*
 				final MediaVideoBufferEncoder videoEncoder;
 				synchronized (mSync) {
